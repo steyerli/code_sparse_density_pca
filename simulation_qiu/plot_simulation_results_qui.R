@@ -10,8 +10,8 @@ source("../fit_density_pca.R")
 sim_results <- readRDS("simulation_results/simulation_40_1001")
 
 type_levels <- c("oracle", "latent density",
-                 "two-step, kernel density", 
-                 "density fpca Qui")
+                 "two-step, \nkernel density", 
+                 "two-step, \ndensity fpca Qui")
 ################################################################################
 ### make covariance plots
 get_cov_from_pca <- function(pca){
