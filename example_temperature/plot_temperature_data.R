@@ -149,8 +149,10 @@ g_42 <- ggplot(data = pc4_plot_data[pc4_plot_data$clr_trafo == 0,], aes(x = x, y
 g_43 <- ggplot(data = data.frame("score" = pre_smoothed_pca$x[,4], "year" = 1951:2022),
        aes(x = year, y = score)) + geom_point() + geom_smooth(method = "gam")
 ################################################################################
+pdf("../../Figures/temperatur_pca_pre_smooth.pdf", width = 10, height = 6)
 plot_grid(g_11, g_21, g_31, g_41, g_12, g_22, g_32, g_42, g_13, g_23, g_33, g_43, 
           nrow = 3, align = "v", axis = "lr", rel_heights = c(2.6,2,2))
+dev.off()
 
 
 ################################################################################
@@ -274,17 +276,19 @@ g_42 <- ggplot(data = pc4_plot_data[pc4_plot_data$clr_trafo == 0,], aes(x = x, y
 g_43 <- ggplot(data = data.frame("score" = scores[,4], "year" = 1951:2022),
                aes(x = year, y = score)) + geom_point() + geom_smooth(method = "gam")
 ################################################################################
+pdf("../../Figures/temperatur_density_pca.pdf", width = 10, height = 6)
 plot_grid(g_11, g_21, g_31, g_41, g_12, g_22, g_32, g_42, g_13, g_23, g_33, g_43, 
           nrow = 3, align = "v", axis = "lr", rel_heights = c(2.6,2,2))
-
+dev.off()
 
 ################################################################################
 # plot pc 1 vs pc 3
+pdf("../../Figures/temperature_pc1_vs_pc3.pdf", width = 5, height = 3)
 ggplot(data = scores, mapping = aes(x = X1, y = X3, color = year)) + geom_point(size = 2) + 
   scale_color_viridis_c(option = "H", direction = 1, begin = 0, end = 0.7) +
   theme(legend.key.width = unit(5, "pt")) +
   xlab("PC 1 score") + ylab("PC 3 score")
-
+dev.off()
 
 ################################################################################
 # plot estimated densities vs predicted densities
@@ -292,6 +296,7 @@ g_kernel_estimates <- ggplot() + geom_path(aes(x = x, y = y, group = year, col =
                                            data = densities_estimated_plot_data, linewidth = 0.2) +
   ylab("density") + xlab("daily max temp") + theme(legend.key.width = unit(5, "pt")) +
   scale_color_viridis_c(option = "H", direction = 1, begin = 0, end = 0.7) + ggtitle("Kernel density estimates")
+g_kernel_estimates 
 
 latent_clr_densities <- predict_latent_densities(density_pca)
 
@@ -306,4 +311,6 @@ g_latent_densities <- ggplot() + geom_path(aes(x = x, y = y, group = year, col =
   ylab("density") + xlab("daily max temp") + theme(legend.position = "none") +
   scale_color_viridis_c(option = "H", direction = 1, begin = 0, end = 0.7) + ggtitle("Predicted latent densities")
 
+pdf("../../Figures/temperature_densities.pdf", width = 9, height = 4)
 plot_grid(g_kernel_estimates, g_latent_densities, rel_widths = c(4,3.5)) 
+dev.off()
