@@ -1,0 +1,62 @@
+# set working directory to source file directory
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+source("simulate_data_misspec.R")
+source("../fit_density_pca.R")
+source("../simulation/fit_compositional_spline_pca.R")
+source("../simulation/fit_pre_smooth_pca.R")
+
+################################################################################
+m <- 20
+lapply(1:100, function(i){
+  seed_i <- 1000 + i
+  set.seed(seed_i)
+  simulated_data <- simulate_data_misspec(m = m)
+  pre_smooth_pca <- fit_pre_smooth_pca(simulated_data$x_data)
+  compo_pca <- fit_compositional_spline_pca(simulated_data$x_data)
+  density_pca <- fit_density_pca(simulated_data$x_data, max_iter = 50, dim_reduction = 0.0001)
+  saveRDS(list(simulated_data, density_pca, pre_smooth_pca, compo_pca), 
+          file = paste0("simulation_results/simulation_", m,"_", seed_i))
+})
+
+################################################################################
+m <- 40
+lapply(1:100, function(i){
+  seed_i <- 1000 + i
+  set.seed(seed_i)
+  simulated_data <- simulate_data_misspec(m = m)
+  pre_smooth_pca <- fit_pre_smooth_pca(simulated_data$x_data)
+  compo_pca <- fit_compositional_spline_pca(simulated_data$x_data)
+  density_pca <- fit_density_pca(simulated_data$x_data, max_iter = 50)
+  saveRDS(list(simulated_data, density_pca, pre_smooth_pca, compo_pca), 
+          file = paste0("simulation_results/simulation_", m,"_", seed_i))
+})
+
+#######################
+m <- 80
+lapply(1:100, function(i){
+  seed_i <- 1000 + i
+  set.seed(seed_i)
+  simulated_data <- simulate_data_misspec(m = m)
+  pre_smooth_pca <- fit_pre_smooth_pca(simulated_data$x_data)
+  compo_pca <- fit_compositional_spline_pca(simulated_data$x_data)
+  density_pca <- fit_density_pca(simulated_data$x_data, max_iter = 50)
+  saveRDS(list(simulated_data, density_pca, pre_smooth_pca, compo_pca), 
+          file = paste0("simulation_results/simulation_", m,"_", seed_i))
+})
+
+#######################
+m <- 160
+lapply(1:100, function(i){
+  seed_i <- 1000 + i
+  set.seed(seed_i)
+  simulated_data <- simulate_data_misspec(m = m)
+  pre_smooth_pca <- fit_pre_smooth_pca(simulated_data$x_data)
+  compo_pca <- fit_compositional_spline_pca(simulated_data$x_data)
+  density_pca <- fit_density_pca(simulated_data$x_data, max_iter = 50)
+  saveRDS(list(simulated_data, density_pca, pre_smooth_pca, compo_pca), 
+          file = paste0("simulation_results/simulation_", m,"_", seed_i))
+})
+
+
+
+
