@@ -7,7 +7,7 @@ source("../fit_density_pca.R")
 # plot simulation results for one example with m = 40 observations per density
 ################################################################################
 # read simulation results
-sim_results <- readRDS("simulation_results/simulation_40_1001")
+sim_results <- readRDS("simulation_results/simulation_160_1001")
 
 type_levels <- c("oracle", "latent density",
                  "two-step, \nkernel density", 
@@ -94,7 +94,7 @@ plot_grid(g3, g2, g1, ncol = 1, align = "v", axis = "lr")
 ################################################################################
 # plot simulation performance for different m
 ################################################################################
-m_vec <- c(20, 40, 80, 160)
+m_vec <- c(40, 80, 160)
 dist_data_list <- lapply(m_vec, function(m){
   file_names <- list.files("simulation_results/", pattern = paste0("simulation_", m),
                            full.names = TRUE)

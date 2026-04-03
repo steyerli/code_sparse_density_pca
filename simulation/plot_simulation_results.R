@@ -1,3 +1,5 @@
+# set working directory to source file directory
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 library(reshape2)
 library(ggplot2)
 library(cowplot)
@@ -55,7 +57,6 @@ g2 <- ggplot(data = mean_plot_data, aes(x = x, y = y, group = g, col = g)) + geo
   facet_grid(cols = vars(type)) + scale_color_manual(values = c("black", "red", "blue")) +
   theme(strip.background = element_blank(), strip.text = element_blank()) + ylab("g(x)")
 g2
-
 ################################################################################
 ### make predicted densities plot
 
@@ -85,13 +86,14 @@ g3 <- ggplot(data = density_plot_data, aes(x = x, y = y, group = idx, color = id
   theme(legend.position = "none")
 g3
 ################################################################################
+pdf("../../Figures/simulation_example.pdf", width = 9)
 plot_grid(g3, g2, g1, ncol = 1, align = "v", axis = "lr")
-
+dev.off()
 
 ################################################################################
 # plot simulation performance for different m
 ################################################################################
-m_vec <- c(20, 40, 80, 160)
+m_vec <- c(10, 20, 40, 80, 160)
 dist_data_list <- lapply(m_vec, function(m){
   file_names <- list.files("simulation_results/", pattern = paste0("simulation_", m),
                            full.names = TRUE)
@@ -132,8 +134,9 @@ g_cov <- ggplot(data = dist_data[dist_data$fun == "cov",], aes(x = m, y = x, fil
   ylab("dist covariance") + xlab(expression(m[i])) + ggtitle("Distance of covariance estimate to oracle estimate" ) +
   theme(legend.position = "top") + scale_fill_brewer(palette="BuPu")
 
+pdf("../../Figures/simulation_dist_to_oracle.pdf", width = 10, height = 4)
 plot_grid(g_mean, g_cov)
-
+dev.off()
 
 
 
