@@ -1,3 +1,6 @@
+# set working directory to source file directory
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
 library(reshape2)
 library(ggplot2)
 library(cowplot)
@@ -11,7 +14,7 @@ sim_results <- readRDS("simulation_results/simulation_160_1001")
 
 type_levels <- c("oracle", "latent density",
                  "two-step, \nkernel density", 
-                 "two-step, \ndensity fpca Qui")
+                 "two-step, \ndensity fpca Qiu")
 ################################################################################
 ### make covariance plots
 get_cov_from_pca <- function(pca){
@@ -88,7 +91,9 @@ g3 <- ggplot(data = density_plot_data, aes(x = x, y = y, group = idx, color = m)
 
 g3
 ################################################################################
+pdf("../../Figures/simulation_example_qiu.pdf", width = 9)
 plot_grid(g3, g2, g1, ncol = 1, align = "v", axis = "lr")
+dev.off()
 
 
 ################################################################################
@@ -137,6 +142,9 @@ g_cov <- ggplot(data = dist_data[dist_data$fun == "cov",], aes(x = m, y = x, fil
 
 plot_grid(g_mean, g_cov)
 
+pdf("../../Figures/simulation_dist_to_oracle_qiu.pdf", width = 10, height = 4)
+plot_grid(g_mean, g_cov)
+dev.off()
 
 
 
